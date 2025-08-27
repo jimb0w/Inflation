@@ -73,7 +73,7 @@ https://github.com/jimb0w/Inflation \\
 
 ***/
 
-texdoc stlog, cmdlog nodo
+texdoc stlog, nolog nodo
 *Grab the data from the ABS
 cd /home/jimb0w/Documents/Inflation
 copy https://www.abs.gov.au/statistics/labour/earnings-and-working-conditions/average-weekly-earnings-australia/may-2025/6302001.xlsx Wages.xlsx
@@ -364,12 +364,82 @@ gen loss_CPI = WMI-dFT
 gen loss_ECLI = WME-dFT
 gen tloss_CPI = sum(loss_CPI)
 gen tloss_ECLI = sum(loss_ECLI)
-
-
-
+gen normalisedwage = 100*FT/ST
+forval i = 2021(1)2025 {
+local i`i' = td(1,1,`i')
+}
+twoway ///
+(line CPI date, col(black)) ///
+(line normalisedwage date, col(black)) ///
+(rarea CPI normalisedwage date, color(black%30) fintensity(inten80) lwidth(none)) ///
+, ytitle(Index) xtitle(Calendar time) ///
+xlabel( ///
+`i2021' "2021" ///
+`i2022' "2022" ///
+`i2023' "2023" ///
+`i2024' "2024" ///
+`i2025' "2025") ///
+legend(off)
+graph save whatestimated_CPI, replace
+forval i = 2021(1)2025 {
+local i`i' = td(1,1,`i')
+}
+twoway ///
+(line tloss_ECLI date, col(dknavy)) ///
+(line tloss_CPI date, col(magenta)) ///
+, ytitle(AUD) xtitle(Calendar time) ///
+xlabel( ///
+`i2021' "2021" ///
+`i2022' "2022" ///
+`i2023' "2023" ///
+`i2024' "2024" ///
+`i2025' "2025") ///
+legend(position(3) ///
+order(1 "Cumulative total lost to ECLI" ///
+2 "Cumulative total lost to CPI") cols(1)) ///
+ylabel(, format(%9.0fc))
+graph save cumloss, replace
+keep if ///
+date == td(31,12,2021) | ///
+date == td(30,6,2022) | ///
+date == td(31,12,2022) | ///
+date == td(30,6,2023) | ///
+date == td(31,12,2023) | ///
+date == td(30,6,2024) | ///
+date == td(31,12,2024) | ///
+date == td(30,6,2025)
+gen aWMI=WMI*365.25
+gen aWME=WME*365.25
+keep date aFT aWME aWMI tloss_CPI tloss_ECLI
+tostring aFT-aWME, replace force format(%15.2fc)
+order date aFT aWMI aWME
+export delimited using T1.csv, delimiter(":") novarnames replace
 texdoc stlog close
 
 /***
+\color{black}
+
+\begin{table}[h!]
+  \begin{center}
+    \caption{Summary statistics.}
+    \label{T1}
+     \pgfplotstabletypeset[
+      col sep=colon,
+      header=false,
+      string type,
+      display columns/0/.style={column name=Date, column type={l}},
+      display columns/1/.style={column name=Annual full-time earnings if earnings matched CPI inflation, column type={r}},
+      display columns/2/.style={column name=Annual full-time earnings if earnings matched ECLI inflation, column type={r}},
+      display columns/3/.style={column name=Annual full-time earnings, column type={r}},
+      display columns/4/.style={column name=Cumulative loss to CPI, column type={r}},
+      display columns/5/.style={column name=Cumulative loss to ECLI, column type={r}},
+      every head row/.style={
+        before row={\toprule},
+        after row={\midrule}
+            },
+    ]{T1.csv}
+  \end{center}
+\end{table}
 
 \clearpage
 \section{Methods}
