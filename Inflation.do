@@ -422,6 +422,7 @@ texdoc stlog close
 \begin{landscape}
 \begin{table}[h!]
   \begin{center}
+    \hspace*{-2cm}
     \caption{Summary statistics.}
     \label{T1}
      \pgfplotstabletypeset[
