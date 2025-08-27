@@ -482,20 +482,159 @@ texdoc stlog close
 \end{landscape}
 
 \clearpage
-\section{Methods}
+\section{Median earnings}
 
-Goes at the end
+Mean earnings are right-skewed because of high-income earners;
+median earnings probably more accurately capture the experience
+for the average Australian than does the mean. 
+Let's repeat the above calculations, but using median wage instead of mean.
+This will also be stratified by sex.
 
-\color{Blue4}
 ***/
 
-texdoc stlog, cmdlog nodo
-cd /home/jimb0w/Documents/Inflation
-
+texdoc stlog, nolog nodo
+copy https://www.abs.gov.au/statistics/labour/earnings-and-working-conditions/employee-earnings/aug-2024/63370_Table01.xlsx medianwage.xlsx, replace
+import excel "/home/jimb0w/Documents/Inflation/medianwage.xlsx", sheet("Data 1") cellrange(A8:V5407) clear
+keep if A == "Median weekly earnings"
+keep if C == "Full-time"
+keep if D == "Total"
+keep B E V
+gen yr = substr(E,-2,2)
+drop if yr>"30"
+replace yr = "08/15/20"+yr
+gen date = date(yr,"MDY")
+format date %td
+drop E yr
+rename V wages
+replace B = subinstr(B," ","",.)
+save medianwages, replace
+use medianwages, clear
+drop if date < td(1,5,2020)
+centile(date), centile(5 35 65 95)
+local A1 = r(c_1)
+local A2 = r(c_2)
+local A3 = r(c_3)
+local A4 = r(c_4)
+mkspline timesp = date, cubic knots(`A1' `A2' `A3' `A4')
+foreach i in Persons Females Males {
+preserve
+reg wages timesp* if B == "`i'"
+clear
+set obs 1461
+gen date = td(1,7,2021) if _n == 1
+replace date = date[_n-1]+1 if _n > 1
+format date %td
+mkspline timesp = date, cubic knots(`A1' `A2' `A3' `A4')
+predict medFT
+keep date medFT
+gen increment = 1 if date <= td(31,12,2021)
+replace increment = 2 if inrange(date,td(1,1,2022),td(31,12,2022))
+replace increment = 3 if inrange(date,td(1,1,2023),td(31,12,2023))
+replace increment = 4 if inrange(date,td(1,1,2024),td(31,12,2024))
+replace increment = 5 if inrange(date,td(1,1,2025),td(31,12,2025))
+bysort increment (date) : gen FT = medFT[1]
+gen dFT = FT/7
+gen aFT = 365.25*FT/7
+gen ST = medFT[1]
+gen dST = ST/7
+save medFT_`i', replace
+restore
+}
+foreach ii in Persons Females Males {
+use medFT_`ii', clear
+merge 1:1 date using cpifm, nogen
+merge 1:1 date using eclifm, nogen
+gen WMI = dST*CPI1/100
+gen WME = dST*ECLI1/100
+gen loss_CPI = WMI-dFT
+gen loss_ECLI = WME-dFT
+gen tloss_CPI = sum(loss_CPI)
+gen tloss_ECLI = sum(loss_ECLI)
+gen normalisedwage = 100*FT/ST
+forval i = 2021(1)2025 {
+local i`i' = td(1,1,`i')
+}
+twoway ///
+(line tloss_ECLI date, col(dknavy)) ///
+(line tloss_CPI date, col(magenta)) ///
+, ytitle(AUD) xtitle(Calendar time) ///
+xlabel( ///
+`i2021' "2021" ///
+`i2022' "2022" ///
+`i2023' "2023" ///
+`i2024' "2024" ///
+`i2025' "2025") ///
+legend(position(3) ///
+order(1 "Cumulative total lost to ECLI" ///
+2 "Cumulative total lost to CPI") cols(1)) ///
+ylabel(0(5000)25000, format(%9.0fc)) title(`ii', placement(west) col(black) size(medium))
+graph save cumloss_`ii', replace
+keep if ///
+date == td(31,12,2021) | ///
+date == td(30,6,2022) | ///
+date == td(31,12,2022) | ///
+date == td(30,6,2023) | ///
+date == td(31,12,2023) | ///
+date == td(30,6,2024) | ///
+date == td(31,12,2024) | ///
+date == td(30,6,2025)
+gen aWMI=WMI*365.25
+gen aWME=WME*365.25
+keep date aFT aWME aWMI tloss_CPI tloss_ECLI
+tostring aFT-aWME, replace force format(%15.2fc)
+gen sex = "`ii'"
+save T2_`ii', replace
+}
+clear
+append using T2_Females T2_Males
+order sex date aFT aWMI aWME
+export delimited using T2.csv, delimiter(":") novarnames replace
+texdoc stlog close
+texdoc stlog, nolog
+graph combine ///
+cumloss_Females.gph ///
+cumloss_Males.gph ///
+, graphregion(color(white)) cols(2) altshrink xsize(15)
+texdoc graph, label(cumloss) figure(h!) cabove ///
+caption(Cumulative loss to inflation for the median full time worker, by sex.)
 texdoc stlog close
 
 /***
 \color{black}
+
+
+\begin{landscape}
+\begin{table}[h!]
+  \begin{center}
+    \caption{Summary statistics.}
+    \hspace*{-2cm}
+    \label{T2}
+     \pgfplotstabletypeset[
+      col sep=colon,
+      header=false,
+      string type,
+      display columns/0/.style={column name=Sex, column type={l}},
+      display columns/1/.style={column name=Date, column type={l}},
+      display columns/2/.style={column name=Full-time earnings, column type={r}},
+      display columns/3/.style={column name=\specialcell{Full-time earnings if they \\ matched CPI inflation}, column type={r}},
+      display columns/4/.style={column name=\specialcell{Full-time earnings if they \\ matched ECLI inflation}, column type={r}},
+      display columns/5/.style={column name=Cumulative loss to CPI, column type={r}},
+      display columns/6/.style={column name=Cumulative loss to ECLI, column type={r}},
+      every head row/.style={
+        before row={\toprule},
+        every nth row={8}{before row=\midrule},
+        after row={\midrule}
+            },
+    ]{T2.csv}
+  \end{center}
+\end{table}
+\end{landscape}
+
+
+\clearpage
+\section{Methods}
+
+TBD
 
 \end{document}
 ***/
@@ -512,8 +651,7 @@ erase Inflation.out
 erase Inflation.toc
 
 ! git init .
-! git add Inflation.do
-* Inflation.pdf
+! git add Inflation.do Inflation.pdf
 ! git commit -m "0"
 ! git remote remove origin
 ! git remote add origin https://github.com/jimb0w/Inflation.git
