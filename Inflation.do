@@ -622,9 +622,9 @@ texdoc stlog close
       display columns/6/.style={column name=Cumulative loss to ECLI, column type={r}},
       every head row/.style={
         before row={\toprule},
-        every nth row={8}{before row=\midrule},
         after row={\midrule}
             },
+        every nth row={8}{before row=\midrule},
     ]{T2.csv}
   \end{center}
 \end{table}
