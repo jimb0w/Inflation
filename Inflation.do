@@ -65,38 +65,37 @@ https://github.com/jimb0w/Inflation \\
 \clearpage
 \section{Average loss to inflation from July 2021 to June 2025}
 
+*So while this is a good approximation across the economy, it's not a good approximation for 
+*an individual, for whom the experience looks more like this: 
+*That's because wage rises for most come once a year
+
+
 
 ***/
 
 texdoc stlog, cmdlog nodo
+*Grab the data from the ABS
 cd /home/jimb0w/Documents/Inflation
 copy https://www.abs.gov.au/statistics/labour/earnings-and-working-conditions/average-weekly-earnings-australia/may-2025/6302001.xlsx Wages.xlsx
-
 copy https://www.abs.gov.au/statistics/economy/price-indexes-and-inflation/consumer-price-index-australia/jun-quarter-2025/640101.xlsx CPI.xlsx
 copy https://www.abs.gov.au/statistics/economy/price-indexes-and-inflation/selected-living-cost-indexes-australia/jun-2025/646701.xlsx ECLI.xlsx
-
 import excel "/home/jimb0w/Documents/Inflation/Wages.xlsx", sheet("Data1") cellrange(A11:J37) clear
 rename (A C D F G I J) (date M_FT M_T F_FT F_T A_FT A_T)
 drop B E H
 save wages, replace
-
-
 import excel "/home/jimb0w/Documents/Inflation/CPI.xlsx", sheet("Data1") cellrange(A265:S318) clear
 rename (A J S) (date CPI_I CPI)
 keep date CPI*
 save CPI, replace
-
 import excel "/home/jimb0w/Documents/Inflation/ECLI.xlsx", sheet("Data1") cellrange(A66:H119) clear
 rename (A C H) (date ECLI_I ECLI)
 keep date ECLI*
 save ECLI, replace
-
+*Look at the data
 use wages, clear
 gen AFT_I = 100*A_FT/A_FT[1]
 gen AT_I = 100*A_T/A_T[1]
 append using CPI ECLI
-
-
 forval i = 2012(4)2024 {
 local i`i' = td(1,1,`i')
 }
@@ -104,7 +103,7 @@ twoway ///
 (connected AFT_I date) ///
 (connected AT_I date) ///
 (connected CPI_I date) ///
-(connected ECLI_I date) ///
+(connected ECLI_I date, col(magenta)) ///
 , xtitle(Calendar time) ytitle(Index) ///
 xlabel( ///
 `i2012' "2012" ///
@@ -117,8 +116,7 @@ order(1 "Full-time mean earnings" ///
 3 "Consumer Price Index" ///
 4 "Employee Cost of Living Index" ///
 ) cols(1))
-
-
+graph save crude_total, replace
 use CPI, clear
 drop if date < td(1,5,2021)
 gen CPI1 = 100*CPI_I/CPI_I[1]
@@ -127,8 +125,6 @@ use ECLI, clear
 drop if date < td(1,5,2021)
 gen ECLI1 = 100*ECLI_I/ECLI_I[1]
 save ecli1, replace
-
-
 use wages, clear
 drop if date < td(1,5,2021)
 gen AFT_I = 100*A_FT/A_FT[1]
@@ -141,7 +137,7 @@ twoway ///
 (connected AFT_I date) ///
 (connected AT_I date) ///
 (connected CPI1 date) ///
-(connected ECLI1 date) ///
+(connected ECLI1 date, col(magenta)) ///
 , xtitle(Calendar time) ytitle(Index) ///
 xlabel( ///
 `i2021' "2021" ///
@@ -155,20 +151,19 @@ order(1 "Full-time mean earnings" ///
 3 "Consumer Price Index" ///
 4 "Employee Cost of Living Index" ///
 ) cols(1))
-
-*So while this is a good approximation across the economy, it's not a good approximation for 
-*an individual, for whom the experience looks more like this: 
-*That's because wage rises for most come once a year
-
+graph save crude_period, replace
+use wages, clear
+drop if date < td(1,5,2021)
+gen AFT_I = 100*A_FT/A_FT[1]
+gen AT_I = 100*A_T/A_T[1]
+append using cpi1 ecli1
 gen njm = _n
-
 expand 2 if AT_I!=. & njm!=9
 sort njm date
 drop if njm == 3 | njm == 5 | njm == 7
 replace date = date[_n+1]-1 if AT_I==AT_I[_n-1] & AT_I!=.
 replace AFT_I = AFT_I[_n-1] if njm == 9
 replace AT_I = AT_I[_n-1] if njm == 9
-
 twoway ///
 (line AFT_I date) ///
 (line AT_I date) ///
@@ -187,11 +182,190 @@ order(1 "Full-time mean earnings" ///
 3 "Consumer Price Index" ///
 4 "Employee Cost of Living Index" ///
 ) cols(1))
+graph save crude_period_individual, replace
+use wages, clear
+drop if date < td(1,5,2021)
+centile(date), centile(5 35 65 95)
+local A1 = r(c_1)
+local A2 = r(c_2)
+local A3 = r(c_3)
+local A4 = r(c_4)
+mkspline timesp = date, cubic knots(`A1' `A2' `A3' `A4')
+reg A_FT timesp*
+predict A_FT1
+forval i = 2021(1)2025 {
+local i`i' = td(1,1,`i')
+}
+twoway ///
+(scatter A_FT date) ///
+(line A_FT1 date) ///
+, ytitle(AUD (weekly)) xtitle(Calendar time) ///
+xlabel( ///
+`i2021' "2021" ///
+`i2022' "2022" ///
+`i2023' "2023" ///
+`i2024' "2024" ///
+`i2025' "2025") ///
+legend(position(3) ///
+order(1 "Actual" ///
+2 "Modelled") cols(1))
+graph save FTwage_modelcheck, replace
+clear
+set obs 1461
+gen date = td(1,7,2021) if _n == 1
+replace date = date[_n-1]+1 if _n > 1
+format date %td
+mkspline timesp = date, cubic knots(`A1' `A2' `A3' `A4')
+predict A_FT1
+keep date A_FT1
+gen increment = 1 if date <= td(31,12,2021)
+replace increment = 2 if inrange(date,td(1,1,2022),td(31,12,2022))
+replace increment = 3 if inrange(date,td(1,1,2023),td(31,12,2023))
+replace increment = 4 if inrange(date,td(1,1,2024),td(31,12,2024))
+replace increment = 5 if inrange(date,td(1,1,2025),td(31,12,2025))
+bysort increment (date) : gen FT = A_FT1[1]
+gen dFT = FT/7
+gen aFT = 365.25*FT/7
+gen ST = A_FT1[1]
+gen dST = ST/7
+save ftwfm, replace
+use wages, clear
+drop if date < td(1,5,2021)
+centile(date), centile(5 35 65 95)
+local A1 = r(c_1)
+local A2 = r(c_2)
+local A3 = r(c_3)
+local A4 = r(c_4)
+mkspline timesp = date, cubic knots(`A1' `A2' `A3' `A4')
+reg A_T timesp*
+predict A_T1
+forval i = 2021(1)2025 {
+local i`i' = td(1,1,`i')
+}
+twoway ///
+(scatter A_T date) ///
+(line A_T1 date) ///
+, ytitle(AUD (weekly)) xtitle(Calendar time) ///
+xlabel( ///
+`i2021' "2021" ///
+`i2022' "2022" ///
+`i2023' "2023" ///
+`i2024' "2024" ///
+`i2025' "2025") ///
+legend(position(3) ///
+order(1 "Actual" ///
+2 "Modelled") cols(1))
+graph save Twage_modelcheck, replace
+clear
+set obs 1461
+gen date = td(1,7,2021) if _n == 1
+replace date = date[_n-1]+1 if _n > 1
+format date %td
+mkspline timesp = date, cubic knots(`A1' `A2' `A3' `A4')
+predict A_T1
+keep date A_T1
+gen increment = 1 if date <= td(31,12,2021)
+replace increment = 2 if inrange(date,td(1,1,2022),td(31,12,2022))
+replace increment = 3 if inrange(date,td(1,1,2023),td(31,12,2023))
+replace increment = 4 if inrange(date,td(1,1,2024),td(31,12,2024))
+replace increment = 5 if inrange(date,td(1,1,2025),td(31,12,2025))
+bysort increment (date) : gen T = A_T1[1]
+gen dT = T/7
+gen aT = 365.25*T/7
+gen ST = A_T1[1]
+gen dST = ST/7
+save twfm, replace
+use cpi1, clear
+drop CPI CPI_I
+drop if date < td(1,5,2021)
+centile(date), centile(5 35 65 95)
+local A1 = r(c_1)
+local A2 = r(c_2)
+local A3 = r(c_3)
+local A4 = r(c_4)
+mkspline timesp = date, cubic knots(`A1' `A2' `A3' `A4')
+reg CPI1 timesp*
+predict CPI
+forval i = 2021(1)2025 {
+local i`i' = td(1,1,`i')
+}
+twoway ///
+(scatter CPI1 date) ///
+(line CPI date) ///
+, ytitle(CPI index) xtitle(Calendar time) ///
+xlabel( ///
+`i2021' "2021" ///
+`i2022' "2022" ///
+`i2023' "2023" ///
+`i2024' "2024" ///
+`i2025' "2025") ///
+legend(position(3) ///
+order(1 "Actual" ///
+2 "Modelled") cols(1))
+graph save CPI_modelcheck, replace
+clear
+set obs 1461
+gen date = td(1,7,2021) if _n == 1
+replace date = date[_n-1]+1 if _n > 1
+format date %td
+mkspline timesp = date, cubic knots(`A1' `A2' `A3' `A4')
+predict CPI
+keep date CPI
+gen CPI1 = 100*CPI/CPI[1]
+drop CPI
+replace CPI = CPI1
+save cpifm, replace
+use ecli1, clear
+drop ECLI ECLI_I
+drop if date < td(1,5,2021)
+centile(date), centile(5 35 65 95)
+local A1 = r(c_1)
+local A2 = r(c_2)
+local A3 = r(c_3)
+local A4 = r(c_4)
+mkspline timesp = date, cubic knots(`A1' `A2' `A3' `A4')
+reg ECLI1 timesp*
+predict ECLI
+forval i = 2021(1)2025 {
+local i`i' = td(1,1,`i')
+}
+twoway ///
+(scatter ECLI1 date) ///
+(line ECLI date) ///
+, ytitle(ECLI index) xtitle(Calendar time) ///
+xlabel( ///
+`i2021' "2021" ///
+`i2022' "2022" ///
+`i2023' "2023" ///
+`i2024' "2024" ///
+`i2025' "2025") ///
+legend(position(3) ///
+order(1 "Actual" ///
+2 "Modelled") cols(1))
+graph save ECLI_modelcheck, replace
+clear
+set obs 1461
+gen date = td(1,7,2021) if _n == 1
+replace date = date[_n-1]+1 if _n > 1
+format date %td
+mkspline timesp = date, cubic knots(`A1' `A2' `A3' `A4')
+predict ECLI
+keep date ECLI
+gen ECLI1 = 100*ECLI/ECLI[1]
+drop ECLI
+replace ECLI = ECLI1
+save eclifm, replace
+use ftwfm, clear
+merge 1:1 date using cpifm, nogen
+merge 1:1 date using eclifm, nogen
+gen WMI = dST*CPI1/100
+gen WME = dST*ECLI1/100
+gen loss_CPI = WMI-dFT
+gen loss_ECLI = WME-dFT
+gen tloss_CPI = sum(loss_CPI)
+gen tloss_ECLI = sum(loss_ECLI)
 
 
-
-
-di td(01,01,2016)
 
 texdoc stlog close
 
@@ -228,7 +402,8 @@ erase Inflation.out
 erase Inflation.toc
 
 ! git init .
-! git add Inflation.do Inflation.pdf
+! git add Inflation.do
+* Inflation.pdf
 ! git commit -m "0"
 ! git remote remove origin
 ! git remote add origin https://github.com/jimb0w/Inflation.git
