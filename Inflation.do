@@ -419,6 +419,7 @@ texdoc stlog close
 /***
 \color{black}
 
+\begin{landscape}
 \begin{table}[h!]
   \begin{center}
     \caption{Summary statistics.}
@@ -428,8 +429,8 @@ texdoc stlog close
       header=false,
       string type,
       display columns/0/.style={column name=Date, column type={l}},
-      display columns/1/.style={column name=Annual full-time earnings if earnings matched CPI inflation, column type={r}},
-      display columns/2/.style={column name=Annual full-time earnings if earnings matched ECLI inflation, column type={r}},
+      display columns/1/.style={column name=\specialcell{Annual full-time earnings \\ if earnings matched CPI inflation}, column type={r}},
+      display columns/2/.style={column name=\specialcell{Annual full-time earnings \\ if earnings matched ECLI inflation}, column type={r}},
       display columns/3/.style={column name=Annual full-time earnings, column type={r}},
       display columns/4/.style={column name=Cumulative loss to CPI, column type={r}},
       display columns/5/.style={column name=Cumulative loss to ECLI, column type={r}},
@@ -440,6 +441,7 @@ texdoc stlog close
     ]{T1.csv}
   \end{center}
 \end{table}
+\end{landscape}
 
 \clearpage
 \section{Methods}
