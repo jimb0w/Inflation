@@ -65,20 +65,14 @@ https://github.com/jimb0w/Inflation \\
 \clearpage
 \section{Average loss to inflation from July 2021 to June 2025}
 
-*So while this is a good approximation across the economy, it's not a good approximation for 
-*an individual, for whom the experience looks more like this: 
-*That's because wage rises for most come once a year
-
-
-
 ***/
 
 texdoc stlog, nolog nodo
 *Grab the data from the ABS
 cd /home/jimb0w/Documents/Inflation
-copy https://www.abs.gov.au/statistics/labour/earnings-and-working-conditions/average-weekly-earnings-australia/may-2025/6302001.xlsx Wages.xlsx
-copy https://www.abs.gov.au/statistics/economy/price-indexes-and-inflation/consumer-price-index-australia/jun-quarter-2025/640101.xlsx CPI.xlsx
-copy https://www.abs.gov.au/statistics/economy/price-indexes-and-inflation/selected-living-cost-indexes-australia/jun-2025/646701.xlsx ECLI.xlsx
+copy https://www.abs.gov.au/statistics/labour/earnings-and-working-conditions/average-weekly-earnings-australia/may-2025/6302001.xlsx Wages.xlsx, replace
+copy https://www.abs.gov.au/statistics/economy/price-indexes-and-inflation/consumer-price-index-australia/jun-quarter-2025/640101.xlsx CPI.xlsx, replace
+copy https://www.abs.gov.au/statistics/economy/price-indexes-and-inflation/selected-living-cost-indexes-australia/jun-2025/646701.xlsx ECLI.xlsx, replace
 import excel "/home/jimb0w/Documents/Inflation/Wages.xlsx", sheet("Data1") cellrange(A11:J37) clear
 rename (A C D F G I J) (date M_FT M_T F_FT F_T A_FT A_T)
 drop B E H
@@ -278,6 +272,7 @@ save twfm, replace
 use cpi1, clear
 drop CPI CPI_I
 drop if date < td(1,5,2021)
+replace date = date-16
 centile(date), centile(5 35 65 95)
 local A1 = r(c_1)
 local A2 = r(c_2)
@@ -318,6 +313,7 @@ save cpifm, replace
 use ecli1, clear
 drop ECLI ECLI_I
 drop if date < td(1,5,2021)
+replace date = date-16
 centile(date), centile(5 35 65 95)
 local A1 = r(c_1)
 local A2 = r(c_2)
@@ -414,6 +410,47 @@ keep date aFT aWME aWMI tloss_CPI tloss_ECLI
 tostring aFT-aWME, replace force format(%15.2fc)
 order date aFT aWMI aWME
 export delimited using T1.csv, delimiter(":") novarnames replace
+texdoc stlog close
+
+
+/***
+
+The goal was to estimate the total earnings (in dollars) lost to inflation
+for an average earner from July 2021 to June 2025 in Australia.
+Data were sourced directly from the Australian Bureau of Statistics 
+(see the methods for full sources), and are shown in Figure~\ref{crude_period}.
+The slope of the lines is representative of an average across the economy,
+but for an individual wage earner, who only gets a pay rise once a year, while prices
+rise more or less continuously, the actual experience looks more like Figure~\ref{crude_period_individual}.
+
+We calculated the cumulative
+lost earnings to inflation (i.e., the area shown in Figure~\ref{whatestimated_CPI})
+under the following
+assumptions:
+\begin{itemize}
+\item The period of study starts at 1 July 2021 and ends on 30 June 2025.
+\item Workers receive annual wage rises on 1 January each year (timed to be at the mid-point
+of the study yearly cycles). 
+\item Inflation is continuous.
+\end{itemize}
+
+The results are shown in Figure~\ref{cumloss} and Table~\ref{T1}.
+
+***/
+
+texdoc stlog, nolog
+graph use crude_period.gph
+texdoc graph, label(crude_period) figure(h!) cabove ///
+caption(Crude data derived from the ABS.)
+graph use crude_period_individual.gph
+texdoc graph, label(crude_period_individual) figure(h!) cabove ///
+caption(Schematic of what inflation looks like for an individual.)
+graph use whatestimated_CPI.gph
+texdoc graph, label(whatestimated_CPI) figure(h!) cabove ///
+caption(Illustration of what was estimated.)
+graph use cumloss.gph
+texdoc graph, label(cumloss) figure(h!) cabove ///
+caption(Cumulative loss to inflation for the average full time worker.)
 texdoc stlog close
 
 /***
