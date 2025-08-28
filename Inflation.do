@@ -634,8 +634,17 @@ texdoc stlog close
 \clearpage
 \section{Methods}
 
-TBD
+All data were sourced from the Australian Bureau of statistics:
+\begin{itemize}
+\item Wages from \color{blue} \href{https://www.abs.gov.au/statistics/labour/earnings-and-working-conditions/average-weekly-earnings-australia/may-2025/6302001.xlsx}{here}. \color{black}
+\end{itemize}
 
+\color{Blue4}
+***/
+
+
+
+/***
 \end{document}
 ***/
 
