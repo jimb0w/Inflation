@@ -650,9 +650,9 @@ All data were sourced from the Australian Bureau of statistics:
 \item CPI from \color{blue} \href{https://www.abs.gov.au/statistics/economy/price-indexes-and-inflation/consumer-price-index-australia/jun-quarter-2025/640101.xlsx CPI.xlsx}{here}. \color{black}
 \item ECLI from \color{blue} \href{https://www.abs.gov.au/statistics/economy/price-indexes-and-inflation/selected-living-cost-indexes-australia/jun-2025/646701.xlsx}{here}. \color{black}
 \end{itemize}
-The data are shown in Figure~\ref{crude_total}, but only data from May 2021 onwards were used (Figure~\ref{crude_period}.
+The data are shown in Figure~\ref{crude_total}, but only data from May 2021 onwards were used (Figure~\ref{crude_period}).
 To generate Figure~\ref{crude_period_individual}, I simply manipulated the ABS data to show wage rises once a year
-by removing the May 2022, 2023, and 2024 wage figures, and added observations the day before the November wage Figures,
+by removing the May 2022, 2023, and 2024 wage figures, and added observations the day before the November wage figures,
 thereby generating data that can be plotted to represent the age experience for a worker with one wage increase per year.
 
 \subsection{Converting to single-day data}
