@@ -647,7 +647,7 @@ The methods build on Jerome Small and Andrew Cheeseman's prior work.
 All data were sourced from the Australian Bureau of statistics:
 \begin{itemize}
 \item Wages from \color{blue} \href{https://www.abs.gov.au/statistics/labour/earnings-and-working-conditions/average-weekly-earnings-australia/may-2025/6302001.xlsx}{here}. \color{black}
-\item CPI from \color{blue} \href{https://www.abs.gov.au/statistics/economy/price-indexes-and-inflation/consumer-price-index-australia/jun-quarter-2025/640101.xlsx CPI.xlsx}{here}. \color{black}
+\item CPI from \color{blue} \href{https://www.abs.gov.au/statistics/economy/price-indexes-and-inflation/consumer-price-index-australia/jun-quarter-2025/640101.xlsx}{here}. \color{black}
 \item ECLI from \color{blue} \href{https://www.abs.gov.au/statistics/economy/price-indexes-and-inflation/selected-living-cost-indexes-australia/jun-2025/646701.xlsx}{here}. \color{black}
 \end{itemize}
 The data are shown in Figure~\ref{crude_total}, but only data from May 2021 onwards were used (Figure~\ref{crude_period}).
