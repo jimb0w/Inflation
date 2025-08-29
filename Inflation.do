@@ -44,7 +44,7 @@ texdoc stlog close
 \begin{titlepage}
     \begin{flushright}
         \Huge
-        \textbf{How much to workers really lose to inflation?}
+        \textbf{How much do workers really lose to inflation?}
 \color{black}
 \rule{16cm}{2mm} \\
 \Large
