@@ -391,7 +391,7 @@ xlabel( ///
 `i2024' "2024" ///
 `i2025' "2025") ///
 legend(position(3) ///
-order(1 "Cumulative total lost to ECLI" ///
+order(1 "Cumulative total lost to ELCI" ///
 2 "Cumulative total lost to CPI") cols(1)) ///
 ylabel(, format(%9.0fc))
 graph save cumloss, replace
