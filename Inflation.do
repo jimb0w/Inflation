@@ -108,7 +108,7 @@ legend(position(3) ///
 order(1 "Full-time mean earnings" ///
 2 "Total mean earnings" ///
 3 "Consumer Price Index" ///
-4 "Employee Cost of Living Index" ///
+4 "Employee Living Cost Index" ///
 ) cols(1))
 graph save crude_total, replace
 use CPI, clear
@@ -143,7 +143,7 @@ legend(position(3) ///
 order(1 "Full-time mean earnings" ///
 2 "Total mean earnings" ///
 3 "Consumer Price Index" ///
-4 "Employee Cost of Living Index" ///
+4 "Employee Living Cost Index" ///
 ) cols(1))
 graph save crude_period, replace
 use wages, clear
@@ -174,7 +174,7 @@ legend(position(3) ///
 order(1 "Full-time mean earnings" ///
 2 "Total mean earnings" ///
 3 "Consumer Price Index" ///
-4 "Employee Cost of Living Index" ///
+4 "Employee Living Cost Index" ///
 ) cols(1))
 graph save crude_period_individual, replace
 use wages, clear
@@ -436,7 +436,7 @@ of the study yearly cycles).
 
 
 Consumer Price Index (CPI)
-Employee Cost of Living Index (ECLI)
+Employee Living Cost Index (ELCI)
 
 
 The results are shown in Figure~\ref{cumloss} and Table~\ref{T1}.
@@ -474,9 +474,9 @@ texdoc stlog close
       display columns/0/.style={column name=Date, column type={l}},
       display columns/1/.style={column name=Full-time earnings, column type={r}},
       display columns/2/.style={column name=\specialcell{Full-time earnings if they \\ matched CPI inflation}, column type={r}},
-      display columns/3/.style={column name=\specialcell{Full-time earnings if they \\ matched ECLI inflation}, column type={r}},
+      display columns/3/.style={column name=\specialcell{Full-time earnings if they \\ matched ELCI inflation}, column type={r}},
       display columns/4/.style={column name=Cumulative loss to CPI, column type={r}},
-      display columns/5/.style={column name=Cumulative loss to ECLI, column type={r}},
+      display columns/5/.style={column name=Cumulative loss to ELCI, column type={r}},
       every head row/.style={
         before row={\toprule},
         after row={\midrule}
@@ -570,7 +570,7 @@ xlabel( ///
 `i2024' "2024" ///
 `i2025' "2025") ///
 legend(position(3) ///
-order(1 "Cumulative total lost to ECLI" ///
+order(1 "Cumulative total lost to ELCI" ///
 2 "Cumulative total lost to CPI") cols(1)) ///
 ylabel(0(5000)25000, format(%9.0fc)) title(`ii', placement(west) col(black) size(medium))
 graph save cumloss_`ii', replace
@@ -622,9 +622,9 @@ texdoc stlog close
       display columns/1/.style={column name=Date, column type={l}},
       display columns/2/.style={column name=Full-time earnings, column type={r}},
       display columns/3/.style={column name=\specialcell{Full-time earnings if they \\ matched CPI inflation}, column type={r}},
-      display columns/4/.style={column name=\specialcell{Full-time earnings if they \\ matched ECLI inflation}, column type={r}},
+      display columns/4/.style={column name=\specialcell{Full-time earnings if they \\ matched ELCI inflation}, column type={r}},
       display columns/5/.style={column name=Cumulative loss to CPI, column type={r}},
-      display columns/6/.style={column name=Cumulative loss to ECLI, column type={r}},
+      display columns/6/.style={column name=Cumulative loss to ELCI, column type={r}},
       every head row/.style={
         before row={\toprule},
         after row={\midrule}
@@ -648,7 +648,7 @@ All data were sourced from the Australian Bureau of statistics:
 \begin{itemize}
 \item Wages from \color{blue} \href{https://www.abs.gov.au/statistics/labour/earnings-and-working-conditions/average-weekly-earnings-australia/may-2025/6302001.xlsx}{here}. \color{black}
 \item CPI from \color{blue} \href{https://www.abs.gov.au/statistics/economy/price-indexes-and-inflation/consumer-price-index-australia/jun-quarter-2025/640101.xlsx}{here}. \color{black}
-\item ECLI from \color{blue} \href{https://www.abs.gov.au/statistics/economy/price-indexes-and-inflation/selected-living-cost-indexes-australia/jun-2025/646701.xlsx}{here}. \color{black}
+\item ELCI from \color{blue} \href{https://www.abs.gov.au/statistics/economy/price-indexes-and-inflation/selected-living-cost-indexes-australia/jun-2025/646701.xlsx}{here}. \color{black}
 \end{itemize}
 The data are shown in Figure~\ref{crude_total}, but only data from May 2021 onwards were used (Figure~\ref{crude_period}).
 To generate Figure~\ref{crude_period_individual}, I simply manipulated the ABS data to show wage rises once a year
@@ -664,13 +664,13 @@ To transform the data from bi-annually/quarterly into continuous data,
 I used linear regression with restricted cubic splines representing the effect
 of calendar time. Knots for the splines were spaced at four evenly spaced quantiles
 as recommended by Frank Harrell in his epic ``Regression modeling strategies'' 
-(Table 2.3 in the 2001 edition of that textbook). The outcome (dependent variable) was wages, CPI, or ECLI,
+(Table 2.3 in the 2001 edition of that textbook). The outcome (dependent variable) was wages, CPI, or ELCI,
 and only (spline effects of) calendar time was used as the independent variable.  
-These regression models were then used to predict wages, CPI, and ECLI for each calendar day
+These regression models were then used to predict wages, CPI, and ELCI for each calendar day
 from 1 July 2021 to 30 June 2025. 
 The fit of the models was checked, and they fit the 
 data well (Figures~\ref{FTwage_modelcheck}-\ref{ECLI_modelcheck}).
-The predicted CPI and ECLI indices were then adjusted to have
+The predicted CPI and ELCI indices were then adjusted to have
 them be at 100 from 1 July 2021 by normalising the predicted
 values to the index on 1 July 2021. 
 
@@ -678,7 +678,7 @@ values to the index on 1 July 2021.
 
 Total wage loss was estimated using a simulation that ran 
 over individual days. The simulation was populated with the data
-estimated above for CPI and ECLI. 
+estimated above for CPI and ELCI. 
 Wage data were derived from the modelled wage data, 
 with wage increments increasing on 
 1 January each year (i.e., starting 6 months into the simulation). 
@@ -688,11 +688,11 @@ that increase would occur halfway through each yearly ``cycle''.
 This is illustrated in Figure~\ref{whatestimated_CPI}.
 
 With this data, wages were converted into a daily number.
-The daily number on 1 July 2021 was multiplied by the CPI and ECLI
+The daily number on 1 July 2021 was multiplied by the CPI and ELCI
 to generate a wage that theoretically keeps up with inflation
 on a daily (i.e., continuous) basis. The amount lost each day to inflation
 was then derived by subtracting the actual wage per day from
-this theoretical wage that has kept up with inflation (CPI and ECLI).
+this theoretical wage that has kept up with inflation (CPI and ELCI).
 The cumulative lost wages estimate was the cumulative sum of this difference.
 
 \color{Blue4}
@@ -710,7 +710,7 @@ texdoc graph, label(CPI_modelcheck) figure(h!) cabove ///
 caption(Model fit check for CPI regression.)
 graph use ECLI_modelcheck.gph
 texdoc graph, label(ECLI_modelcheck) figure(h!) cabove ///
-caption(Model fit check for ECLI regression.)
+caption(Model fit check for ELCI regression.)
 texdoc stlog close
 
 /***
