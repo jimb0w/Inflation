@@ -81,7 +81,7 @@ Wages behind CPI by 10\% at 30 June 2024 \\
 Wages behind CPI by 8.5\% at 30 June 2025 \\
 1 July 2025 to 30 June 2026 &
 \specialcell{3.75\% (1 July 2025) \\ (index = 114.9) \\ 4\% (1 June 2026) \\ (index = 119.5)} &
-4.2\% (forecast*) (index = 124.3) &
+\specialcell{ 4.2\% (forecast*) \\ (index = 124.3)} &
 Wages behind CPI* by 4.8\% at 30 June 2026 \\
 \hline
 \end{tabular}
