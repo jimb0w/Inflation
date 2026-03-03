@@ -177,21 +177,6 @@ order(1 "Wages" ///
 ) cols(1))
 graph export usydwages.pdf, as(pdf) replace
 texdoc stlog close
-
-/***
-\color{black}
-
-\clearpage
-\begin{figure}[h!]
-    \centering
-    \caption{University of Sydney wages vs. inflation.}
-    \includegraphics[width=0.8\textwidth]{usydwages.pdf}
-    \label{usydwages}
-\end{figure}
-
-\color{Blue4}
-***/
-
 texdoc stlog, nolog
 use CPI_jan26, clear
 replace date = date-45
@@ -270,9 +255,15 @@ In summary, the total loss of wages to inflation over the period
 \item HEO 5.5 = \$`tot_HEO55'
 \item HEO 6.4 = \$`tot_HEO64'
 \end{itemize}
-(these figures include the one-off \$2,000 payment).
+(these figures include the one-off \$2,000 payment.)
 And the mean percentage that wages lagged behind inflation over this period was `mu'\%.
 
+\begin{figure}[h!]
+    \centering
+    \caption{University of Sydney wages vs. inflation.}
+    \includegraphics[width=0.8\textwidth]{usydwages.pdf}
+    \label{usydwages}
+\end{figure}
 
 \begin{landscape}
 \begin{table}[h!]
