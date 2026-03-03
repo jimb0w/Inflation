@@ -61,7 +61,7 @@ Jerome has sourced the following data for this calculation:
 \centering
 \caption{University of Sydney wage increases vs. annual inflation from 1 July 2021 to 30 June 2026}
 \label{usydinfl}
-\begin{tabular}{p{0.25\textwidth}p{0.25\textwidth}p{0.25\textwidth}p{0.25\textwidth}}
+\begin{tabular}{p{0.2\textwidth}p{0.25\textwidth}p{0.25\textwidth}p{0.25\textwidth}}
 \hline
 Period & Wage increase & CPI & Comparison \\
 \hline
@@ -247,7 +247,7 @@ date == td(30,6,2025) | ///
 date == td(31,12,2025) | ///
 date == td(30,6,2026)
 keep date CPI `var' aWMI_`var' tloss_CPI_`var' diff_`var'
-order date CPI `var' aWMI_`var' tloss_CPI_`var' diff_`var'
+order date CPI `var' aWMI_`var' diff_`var' tloss_CPI_`var'
 tostring CPI `var' aWMI_`var' tloss_CPI_`var' diff_`var', replace force format(%15.2fc)
 export delimited using T1_`var'.csv, delimiter(":") novarnames replace
 restore
@@ -268,11 +268,11 @@ texdoc stlog close
       header=false,
       string type,
       display columns/0/.style={column name=Date, column type={l}},
-      display columns/1/.style={column name=Full-time earnings, column type={r}},
-      display columns/2/.style={column name=\specialcell{Full-time earnings if they \\ matched CPI inflation}, column type={r}},
-      display columns/3/.style={column name=\specialcell{Full-time earnings if they \\ matched ELCI inflation}, column type={r}},
-      display columns/4/.style={column name=Cumulative loss to CPI, column type={r}},
-      display columns/5/.style={column name=Cumulative loss to ELCI, column type={r}},
+      display columns/1/.style={column name=CPI, column type={r}},
+      display columns/2/.style={column name=Full time earnings, column type={r}},
+      display columns/3/.style={column name=\specialcell{Full-time earnings if they \\ matched CPI inflation}, column type={r}},
+      display columns/4/.style={column name=Annualised loss to CPI, column type={r}},
+      display columns/5/.style={column name=Cumulative loss to CPI, column type={r}},
       every head row/.style={
         before row={\toprule},
         after row={\midrule}
