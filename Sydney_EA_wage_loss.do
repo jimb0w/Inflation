@@ -247,6 +247,7 @@ texdoc stlog close
 /***
 \color{black}
 
+\clearpage
 In summary, the total loss of wages to inflation over the period 
 1 July 2021 to 30 June 2026 was found to be:
 \begin{itemize}
