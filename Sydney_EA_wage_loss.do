@@ -268,7 +268,7 @@ texdoc stlog close
 \begin{table}[h!]
   \begin{center}
     \caption{Wages lost to inflation from July 2021 to June 2026 for a Lecturer, level A8.
-The mean percentage behind inflation for the life of the agreement was `mu'.
+The mean percentage behind inflation for the life of the agreement was `mu'\%.
 The total lost over the agreement to inflation for this wage level was \$`tot_LA8' (i.e., including
 the one-off \$2,000 payment).}
     \hspace*{-2cm}
@@ -293,7 +293,10 @@ the one-off \$2,000 payment).}
 
 \begin{table}[h!]
   \begin{center}
-    \caption{Wages lost to inflation from July 2021 to June 2026 for an HEO 4.3.}
+    \caption{Wages lost to inflation from July 2021 to June 2026 for an HEO 4.3.
+The mean percentage behind inflation for the life of the agreement was `mu'\%.
+The total lost over the agreement to inflation for this wage level was \$`tot_HEO43' (i.e., including
+the one-off \$2,000 payment).}
     \hspace*{-2cm}
     \label{T1_HEO43}
      \pgfplotstabletypeset[
