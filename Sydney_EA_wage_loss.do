@@ -22,8 +22,6 @@ texdoc stlog close
 \usepackage[section]{placeins}
 
 \usepackage{chngcntr}
-\counterwithin{figure}{section}
-\counterwithin{table}{section}
 
 \usepackage{multirow}
 \usepackage{booktabs}
