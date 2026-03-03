@@ -251,9 +251,9 @@ date == td(30,6,2026)
 gen B = tloss_CPI[11]-2000
 tostring B, replace force format(%9.2fc)
 texdoc local tot_`var' = B[1]
-keep date CPI `var' aWMI_`var' tloss_CPI_`var' diff_`var'
-order date CPI `var' aWMI_`var' diff_`var' tloss_CPI_`var'
-tostring CPI `var' aWMI_`var' tloss_CPI_`var' diff_`var', replace force format(%15.2fc)
+keep date CPI `var' aWMI_`var' tloss_CPI_`var'
+order date CPI `var' aWMI_`var' tloss_CPI_`var'
+tostring CPI `var' aWMI_`var' tloss_CPI_`var', replace force format(%15.2fc)
 export delimited using T1_`var'.csv, delimiter(":") novarnames replace
 restore
 }
@@ -262,13 +262,24 @@ texdoc stlog close
 /***
 \color{black}
 
+In summary, the total loss of wages to inflation over the period 
+1 July 2021 to 30 June 2026 was found to be:
+\begin{itemize}
+\item Lecturer Level A8 = \$`tot_LA8'
+\item HEO 4.3 = \$`tot_HEO43'
+\item HEO 5.5 = \$`tot_HEO55'
+\item HEO 6.4 = \$`tot_HEO64'
+\end{itemize}
+(these figures include the one-off \$2,000 payment).
+And the mean percentage that wages lagged behind inflation over this period was `mu'\%.
+
+
 \begin{landscape}
 \begin{table}[h!]
   \begin{center}
     \caption{Wages lost to inflation from July 2021 to June 2026 for a Lecturer, level A8.
-The mean percentage behind inflation for the life of the agreement was `mu'\%.
-The total lost over the agreement to inflation for this wage level was \$`tot_LA8' (i.e., including
-the one-off \$2,000 payment).}
+The total lost to inflation from July 2021 to June 2026 for this wage level was \$`tot_LA8' 
+(i.e., including the one-off \$2,000 payment).}
     \hspace*{-2cm}
     \label{T1_LA8}
      \pgfplotstabletypeset[
@@ -279,8 +290,7 @@ the one-off \$2,000 payment).}
       display columns/1/.style={column name=CPI, column type={r}},
       display columns/2/.style={column name=Full time earnings, column type={r}},
       display columns/3/.style={column name=\specialcell{Full-time earnings if they \\ matched CPI inflation}, column type={r}},
-      display columns/4/.style={column name=Annualised loss to CPI, column type={r}},
-      display columns/5/.style={column name=Cumulative loss to CPI, column type={r}},
+      display columns/4/.style={column name=Cumulative loss to CPI, column type={r}},
       every head row/.style={
         before row={\toprule},
         after row={\midrule}
@@ -292,9 +302,8 @@ the one-off \$2,000 payment).}
 \begin{table}[h!]
   \begin{center}
     \caption{Wages lost to inflation from July 2021 to June 2026 for an HEO 4.3.
-The mean percentage behind inflation for the life of the agreement was `mu'\%.
-The total lost over the agreement to inflation for this wage level was \$`tot_HEO43' (i.e., including
-the one-off \$2,000 payment).}
+The total lost to inflation from July 2021 to June 2026 for this wage level was \$`tot_HEO43' 
+(i.e., including the one-off \$2,000 payment).}
     \hspace*{-2cm}
     \label{T1_HEO43}
      \pgfplotstabletypeset[
@@ -305,8 +314,7 @@ the one-off \$2,000 payment).}
       display columns/1/.style={column name=CPI, column type={r}},
       display columns/2/.style={column name=Full time earnings, column type={r}},
       display columns/3/.style={column name=\specialcell{Full-time earnings if they \\ matched CPI inflation}, column type={r}},
-      display columns/4/.style={column name=Annualised loss to CPI, column type={r}},
-      display columns/5/.style={column name=Cumulative loss to CPI, column type={r}},
+      display columns/4/.style={column name=Cumulative loss to CPI, column type={r}},
       every head row/.style={
         before row={\toprule},
         after row={\midrule}
@@ -318,9 +326,8 @@ the one-off \$2,000 payment).}
 \begin{table}[h!]
   \begin{center}
     \caption{Wages lost to inflation from July 2021 to June 2026 for an HEO 5.5.
-The mean percentage behind inflation for the life of the agreement was `mu'\%.
-The total lost over the agreement to inflation for this wage level was \$`tot_HEO55' (i.e., including
-the one-off \$2,000 payment)}
+The total lost to inflation from July 2021 to June 2026 for this wage level was \$`tot_HEO55' 
+(i.e., including the one-off \$2,000 payment).}
     \hspace*{-2cm}
     \label{T1_HEO55}
      \pgfplotstabletypeset[
@@ -331,8 +338,7 @@ the one-off \$2,000 payment)}
       display columns/1/.style={column name=CPI, column type={r}},
       display columns/2/.style={column name=Full time earnings, column type={r}},
       display columns/3/.style={column name=\specialcell{Full-time earnings if they \\ matched CPI inflation}, column type={r}},
-      display columns/4/.style={column name=Annualised loss to CPI, column type={r}},
-      display columns/5/.style={column name=Cumulative loss to CPI, column type={r}},
+      display columns/4/.style={column name=Cumulative loss to CPI, column type={r}},
       every head row/.style={
         before row={\toprule},
         after row={\midrule}
@@ -344,9 +350,8 @@ the one-off \$2,000 payment)}
 \begin{table}[h!]
   \begin{center}
     \caption{Wages lost to inflation from July 2021 to June 2026 for an HEO 6.4.
-The mean percentage behind inflation for the life of the agreement was `mu'\%.
-The total lost over the agreement to inflation for this wage level was \$`tot_HEO64' (i.e., including
-the one-off \$2,000 payment)}
+The total lost to inflation from July 2021 to June 2026 for this wage level was \$`tot_HEO64' 
+(i.e., including the one-off \$2,000 payment).}
     \hspace*{-2cm}
     \label{T1_HEO64}
      \pgfplotstabletypeset[
@@ -357,8 +362,7 @@ the one-off \$2,000 payment)}
       display columns/1/.style={column name=CPI, column type={r}},
       display columns/2/.style={column name=Full time earnings, column type={r}},
       display columns/3/.style={column name=\specialcell{Full-time earnings if they \\ matched CPI inflation}, column type={r}},
-      display columns/4/.style={column name=Annualised loss to CPI, column type={r}},
-      display columns/5/.style={column name=Cumulative loss to CPI, column type={r}},
+      display columns/4/.style={column name=Cumulative loss to CPI, column type={r}},
       every head row/.style={
         before row={\toprule},
         after row={\midrule}
