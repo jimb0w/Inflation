@@ -110,7 +110,7 @@ The goal here is to estimate the total amount of money lost to inflation since J
 
 This is represented graphically in Figure~\ref{usydwages}, where the loss
 to inflation is the difference between the two lines. The results are shown in 
-Tables~\ref{}-\ref{}. The methods are available in ``Inflation.pdf'' at 
+Tables~\ref{T1_LA8}-\ref{T1_HEO64}. The methods are available in ``Inflation.pdf'' at 
 \color{blue}\href{https://github.com/jimb0w/Inflation}{https://github.com/jimb0w/Inflation}\color{black}.
 
 \color{Blue4}
