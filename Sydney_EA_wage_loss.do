@@ -67,19 +67,19 @@ Period & Wage increase & CPI & Comparison \\
 \hline
 1 July 2021 to 30 June 2022 &
 No wage increase (index = 100) &
-6.2 \% (index = 106.2)
+6.2 \% (index = 106.2) &
 Wages behind CPI by 6.2\% at 30 June 2022 \\
 1 July 2022 to 30 June 2023 &
 2.1\% (July 2022) (index = 102.1) &
-6\% (index = 112.6)
+6\% (index = 112.6) &
 Wages behind CPI by 10.5\% at 30 June 2023 \\
 1 July 2023 to 30 June 2024 &
 4.6\% (24 Aug 2023) (index = 106.8) &
-3.8\% (index = 116.8)
+3.8\% (index = 116.8) &
 Wages behind CPI by 10\% at 30 June 2024 \\
 1 July 2024 to 30 June 2025 &
 3.75\% (1 July 2024) (index = 110.8) &
-2.1\% (index = 119.3)
+2.1\% (index = 119.3) &
 Wages behind CPI by 8.5\% at 30 June 2025 \\
 1 July 2025 to 30 June 2026 &
 \specialcell{3.75\% (1 July 2025) (index = 114.9) \\ 4\% (1 June 2026) (index = 119.5)} &
