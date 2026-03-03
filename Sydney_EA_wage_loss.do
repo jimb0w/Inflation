@@ -89,7 +89,7 @@ Wages behind CPI* by 4.8\% at 30 June 2026 \\
 
 Sources:
 \begin{itemize}
-\item Forecast inflation* from Reserve Bank (Feb 2026):
+\item Forecast inflation* from Reserve Bank (Feb 2026): \\
 https://www.rba.gov.au/publications/smp/2026/feb/outlook.html
 ``Inflation is now expected to peak in mid-2026 – with underlying inflation at 3.7 per cent and headline inflation at 4.2 per cent – before moderating to a little above the midpoint of the 2–3 per cent range by mid-2028.''
 \item Inflation figures from Reserve Bank:
