@@ -93,9 +93,9 @@ Sources:
 \color{blue}\href{https://www.rba.gov.au/publications/smp/2026/feb/outlook.html}{https://www.rba.gov.au/publications/smp/2026/feb/outlook.html}\color{black}
 ``Inflation is now expected to peak in mid-2026 – with underlying inflation at 3.7 per cent and headline inflation at 4.2 per cent – before moderating to a little above the midpoint of the 2–3 per cent range by mid-2028.''
 \item Inflation figures from Reserve Bank:
-https://www.rba.gov.au/inflation/measures-cpi.html
+\color{blue}\href{https://www.rba.gov.au/inflation/measures-cpi.html}{https://www.rba.gov.au/inflation/measures-cpi.html}
 \item Wages from 2023-26 EA:
-https://www.fwc.gov.au/document-view/agreements/the-university-of-sydney-enterprise-agreement-2023-2026?from=search
+\color{blue}\href{https://www.fwc.gov.au/document-view/agreements/the-university-of-sydney-enterprise-agreement-2023-2026?from=search}{https://www.fwc.gov.au/document-view/agreements/the-university-of-sydney-enterprise-agreement-2023-2026?from=search}
 \end{itemize}
 
 The goal here is to estimate the total amount of money lost to inflation since July 2021 for the following classifications:
