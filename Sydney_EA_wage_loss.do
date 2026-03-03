@@ -319,7 +319,10 @@ the one-off \$2,000 payment).}
 
 \begin{table}[h!]
   \begin{center}
-    \caption{Wages lost to inflation from July 2021 to June 2026 for an HEO 5.5.}
+    \caption{Wages lost to inflation from July 2021 to June 2026 for an HEO 5.5.
+The mean percentage behind inflation for the life of the agreement was `mu'\%.
+The total lost over the agreement to inflation for this wage level was \$`tot_HEO55' (i.e., including
+the one-off \$2,000 payment)}
     \hspace*{-2cm}
     \label{T1_HEO55}
      \pgfplotstabletypeset[
@@ -342,7 +345,10 @@ the one-off \$2,000 payment).}
 
 \begin{table}[h!]
   \begin{center}
-    \caption{Wages lost to inflation from July 2021 to June 2026 for an HEO 6.4.}
+    \caption{Wages lost to inflation from July 2021 to June 2026 for an HEO 6.4.
+The mean percentage behind inflation for the life of the agreement was `mu'\%.
+The total lost over the agreement to inflation for this wage level was \$`tot_HEO64' (i.e., including
+the one-off \$2,000 payment)}
     \hspace*{-2cm}
     \label{T1_HEO64}
      \pgfplotstabletypeset[
