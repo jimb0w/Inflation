@@ -232,7 +232,7 @@ gen tloss_CPI_`var' = sum(loss_CPI_`var')
 gen aWMI_`var'=WMI_`var'*365.25
 drop d`var' loss_CPI_`var' WMI_`var'
 gen diff_`var' = aWMI_`var'-`var'
-gen windex = 100*LA8/LA8[1]
+gen windex = 100*`var'/`var'[1]
 gen dindex = CPI-windex
 su dindex
 gen A = r(mean)
