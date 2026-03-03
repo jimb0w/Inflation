@@ -278,6 +278,77 @@ texdoc stlog close
     ]{T1_LA8.csv}
   \end{center}
 \end{table}
+
+\begin{table}[h!]
+  \begin{center}
+    \caption{Wages lost to inflation from July 2021 to June 2026 for an HEO 4.3.}
+    \hspace*{-2cm}
+    \label{T1_HEO43}
+     \pgfplotstabletypeset[
+      col sep=colon,
+      header=false,
+      string type,
+      display columns/0/.style={column name=Date, column type={l}},
+      display columns/1/.style={column name=CPI, column type={r}},
+      display columns/2/.style={column name=Full time earnings, column type={r}},
+      display columns/3/.style={column name=\specialcell{Full-time earnings if they \\ matched CPI inflation}, column type={r}},
+      display columns/4/.style={column name=Annualised loss to CPI, column type={r}},
+      display columns/5/.style={column name=Cumulative loss to CPI, column type={r}},
+      every head row/.style={
+        before row={\toprule},
+        after row={\midrule}
+            },
+    ]{T1_HEO43.csv}
+  \end{center}
+\end{table}
+
+\begin{table}[h!]
+  \begin{center}
+    \caption{Wages lost to inflation from July 2021 to June 2026 for an HEO 5.5.}
+    \hspace*{-2cm}
+    \label{T1_HEO55}
+     \pgfplotstabletypeset[
+      col sep=colon,
+      header=false,
+      string type,
+      display columns/0/.style={column name=Date, column type={l}},
+      display columns/1/.style={column name=CPI, column type={r}},
+      display columns/2/.style={column name=Full time earnings, column type={r}},
+      display columns/3/.style={column name=\specialcell{Full-time earnings if they \\ matched CPI inflation}, column type={r}},
+      display columns/4/.style={column name=Annualised loss to CPI, column type={r}},
+      display columns/5/.style={column name=Cumulative loss to CPI, column type={r}},
+      every head row/.style={
+        before row={\toprule},
+        after row={\midrule}
+            },
+    ]{T1_HEO55.csv}
+  \end{center}
+\end{table}
+
+\begin{table}[h!]
+  \begin{center}
+    \caption{Wages lost to inflation from July 2021 to June 2026 for an HEO 6.4.}
+    \hspace*{-2cm}
+    \label{T1_HEO64}
+     \pgfplotstabletypeset[
+      col sep=colon,
+      header=false,
+      string type,
+      display columns/0/.style={column name=Date, column type={l}},
+      display columns/1/.style={column name=CPI, column type={r}},
+      display columns/2/.style={column name=Full time earnings, column type={r}},
+      display columns/3/.style={column name=\specialcell{Full-time earnings if they \\ matched CPI inflation}, column type={r}},
+      display columns/4/.style={column name=Annualised loss to CPI, column type={r}},
+      display columns/5/.style={column name=Cumulative loss to CPI, column type={r}},
+      every head row/.style={
+        before row={\toprule},
+        after row={\midrule}
+            },
+    ]{T1_HEO64.csv}
+  \end{center}
+\end{table}
+
+
 \end{landscape}
 
 ***/
