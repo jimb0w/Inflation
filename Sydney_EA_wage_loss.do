@@ -90,15 +90,13 @@ Wages behind CPI* by 4.8\% at 30 June 2026 \\
 Sources:
 \begin{itemize}
 \item Forecast inflation* from Reserve Bank (Feb 2026): \\
-https://www.rba.gov.au/publications/smp/2026/feb/outlook.html
+\color{blue}\href{https://www.rba.gov.au/publications/smp/2026/feb/outlook.html}{https://www.rba.gov.au/publications/smp/2026/feb/outlook.html}\color{black}
 ``Inflation is now expected to peak in mid-2026 – with underlying inflation at 3.7 per cent and headline inflation at 4.2 per cent – before moderating to a little above the midpoint of the 2–3 per cent range by mid-2028.''
 \item Inflation figures from Reserve Bank:
 https://www.rba.gov.au/inflation/measures-cpi.html
 \item Wages from 2023-26 EA:
 https://www.fwc.gov.au/document-view/agreements/the-university-of-sydney-enterprise-agreement-2023-2026?from=search
 \end{itemize}
-
-(I will get the latest inflation figures from the ABS and use those, adding a single data point for inflation to June as 4.2\%.)
 
 The goal here is to estimate the total amount of money lost to inflation since July 2021 for the following classifications:
 \begin{itemize}
@@ -116,7 +114,7 @@ Tables~\ref{T1_LA8}-\ref{T1_HEO64}. The methods are available in ``Inflation.pdf
 \color{Blue4}
 ***/
 
-texdoc stlog, cmdlog nodo
+texdoc stlog, nolog nodo
 *Grab the data from the ABS
 cd /home/jimb0w/Documents/SA/Inflation
 copy https://www.abs.gov.au/statistics/economy/price-indexes-and-inflation/consumer-price-index-australia/jan-2026/6401017.xlsx CPI_jan26.xlsx, replace
@@ -194,7 +192,7 @@ texdoc stlog close
 \color{Blue4}
 ***/
 
-texdoc stlog, cmdlog
+texdoc stlog, nolog
 use CPI_jan26, clear
 replace date = date-45
 centile(date), centile(5 35 65 95)
