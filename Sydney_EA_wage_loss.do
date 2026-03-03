@@ -251,7 +251,7 @@ date == td(30,6,2025) | ///
 date == td(31,12,2025) | ///
 date == td(30,6,2026)
 gen B = tloss_CPI[11]-2000
-tostring B, replace force format(%9.2f)
+tostring B, replace force format(%9.2fc)
 texdoc local tot_`var' = B[1]
 keep date CPI `var' aWMI_`var' tloss_CPI_`var' diff_`var'
 order date CPI `var' aWMI_`var' diff_`var' tloss_CPI_`var'
@@ -269,7 +269,7 @@ texdoc stlog close
   \begin{center}
     \caption{Wages lost to inflation from July 2021 to June 2026 for a Lecturer, level A8.
 The mean percentage behind inflation for the life of the agreement was `mu'.
-The total lost over the agreement to inflation for this wage level was `tot_LA8' (i.e., including
+The total lost over the agreement to inflation for this wage level was \$`tot_LA8' (i.e., including
 the one-off \$2,000 payment).}
     \hspace*{-2cm}
     \label{T1_LA8}
