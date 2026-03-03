@@ -194,7 +194,7 @@ texdoc stlog close
 \color{Blue4}
 ***/
 
-texdoc stlog, cmdlog nodo
+texdoc stlog, cmdlog
 use CPI_jan26, clear
 replace date = date-45
 centile(date), centile(5 35 65 95)
@@ -232,6 +232,12 @@ gen tloss_CPI_`var' = sum(loss_CPI_`var')
 gen aWMI_`var'=WMI_`var'*365.25
 drop d`var' loss_CPI_`var' WMI_`var'
 gen diff_`var' = aWMI_`var'-`var'
+gen windex = 100*LA8/LA8[1]
+gen dindex = CPI-windex
+su dindex
+gen A = r(mean)
+tostring A, replace force format(%9.2f)
+texdoc local mu = A[1]
 keep if ///
 date == td(1,7,2021) | ///
 date == td(31,12,2021) | ///
@@ -244,6 +250,9 @@ date == td(31,12,2024) | ///
 date == td(30,6,2025) | ///
 date == td(31,12,2025) | ///
 date == td(30,6,2026)
+gen B = tloss_CPI[11]-2000
+tostring B, replace force format(%9.2f)
+texdoc local tot_`var' = B[1]
 keep date CPI `var' aWMI_`var' tloss_CPI_`var' diff_`var'
 order date CPI `var' aWMI_`var' diff_`var' tloss_CPI_`var'
 tostring CPI `var' aWMI_`var' tloss_CPI_`var' diff_`var', replace force format(%15.2fc)
@@ -258,7 +267,10 @@ texdoc stlog close
 \begin{landscape}
 \begin{table}[h!]
   \begin{center}
-    \caption{Wages lost to inflation from July 2021 to June 2026 for a Lecturer, level A8.}
+    \caption{Wages lost to inflation from July 2021 to June 2026 for a Lecturer, level A8.
+The mean percentage behind inflation for the life of the agreement was `mu'.
+The total lost over the agreement to inflation for this wage level was `tot_LA8' (i.e., including
+the one-off \$2,000 payment).}
     \hspace*{-2cm}
     \label{T1_LA8}
      \pgfplotstabletypeset[
