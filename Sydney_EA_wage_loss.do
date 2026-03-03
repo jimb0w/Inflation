@@ -61,7 +61,7 @@ Jerome has sourced the following data for this calculation:
 \centering
 \caption{University of Sydney wage increases vs. annual inflation from 1 July 2021 to 30 June 2026}
 \label{usydinfl}
-\begin{tabular}{lrrl}
+\begin{tabular}{{p{0.25\textwidth}{p{0.25\textwidth}{p{0.25\textwidth}{p{0.25\textwidth}}
 \hline
 Period & Wage increase & CPI & Comparison \\
 \hline
